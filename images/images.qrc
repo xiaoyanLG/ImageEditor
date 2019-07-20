@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image.png</file>
+        <file>extend.ico</file>
+        <file>func.ico</file>
+        <file>left.ico</file>
+        <file>right.ico</file>
+    </qresource>
+</RCC>

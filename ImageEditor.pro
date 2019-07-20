@@ -26,10 +26,18 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    xyfuncsbox.cpp \
+    xyimageviewer.cpp \
+    xyexpansionsbox.cpp \
+    xystoragebox.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    xyfuncsbox.h \
+    xyimageviewer.h \
+    xyexpansionsbox.h \
+    xystoragebox.h
 
 FORMS += \
         mainwindow.ui
@@ -38,3 +46,12 @@ FORMS += \
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    images/images.qrc
+
+win32 {
+msvc {
+greaterThan(QT_MAJOR_VERSION, 4): RC_FILE = app.rc
+}
+}
