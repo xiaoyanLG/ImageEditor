@@ -24,6 +24,9 @@ public slots:
     void zoomOutContents();
 
 protected:
+    bool loadImage(const QString &img);
+
+protected:
     bool event(QEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
 

@@ -14,31 +14,23 @@ XYImageViewer::XYImageViewer(QWidget *parent)
 
 void XYImageViewer::initImage(const QString &img)
 {
-    mImageFile = img;
-    if (mImageFile.isEmpty() || !mSourceImage.load(mImageFile))
+    if (loadImage(img))
     {
-        return;
-    }
+        QFileInfo info = QFileInfo(img);
+        QDir dir = info.absoluteDir();
+        auto supports = QImageReader::supportedImageFormats();
+        QStringList allTypes;
+        for (int i = 0; i < supports.size(); ++i)
+        {
+            allTypes << QString("*.%1").arg(supports[i].data());
+        }
 
-    QFileInfo info = QFileInfo(mImageFile);
-    QDir dir = info.absoluteDir();
-    auto supports = QImageReader::supportedImageFormats();
-    QStringList allTypes;
-    for (int i = 0; i < supports.size(); ++i)
-    {
-        allTypes << QString("*.%1").arg(supports[i].data());
+        mAllDirImages = dir.entryList(allTypes, QDir::Files);
+        if (!mAllDirImages.contains(info.fileName()))
+        {
+            mAllDirImages.prepend(info.fileName());
+        }
     }
-
-    mAllDirImages = dir.entryList(allTypes, QDir::Files);
-    if (!mAllDirImages.contains(info.fileName()))
-    {
-        mAllDirImages.prepend(info.fileName());
-    }
-    mPaintImage = mSourceImage;
-    mScale = 1.0;
-
-    moveImageToCenter();
-    update();
 }
 
 void XYImageViewer::moveImageToCenter()
@@ -51,7 +43,7 @@ void XYImageViewer::moveImageToCenter()
 
 void XYImageViewer::restore()
 {
-    initImage(mImageFile);
+    loadImage(mImageFile);
 }
 
 void XYImageViewer::adaptive()
@@ -99,11 +91,11 @@ void XYImageViewer::previous()
 
     if (index == -1 || index == 0)
     {
-        initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.last());
+        loadImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.last());
     }
     else
     {
-        initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.at(index - 1));
+        loadImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.at(index - 1));
     }
 }
 
@@ -119,11 +111,11 @@ void XYImageViewer::next()
 
     if (index == -1 || index == mAllDirImages.size() - 1)
     {
-        initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.first());
+        loadImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.first());
     }
     else
     {
-        initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.at(index + 1));
+        loadImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.at(index + 1));
     }
 }
 
@@ -162,7 +154,7 @@ void XYImageViewer::deleteCurrentImage()
         }
         else if (mAllDirImages.size() == 1)
         {
-            initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.first());
+            loadImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.first());
         }
         else
         {
@@ -198,6 +190,21 @@ void XYImageViewer::zoomOutContents()
 
         update();
     }
+}
+
+bool XYImageViewer::loadImage(const QString &img)
+{
+    mImageFile = img;
+    if (mImageFile.isEmpty() || !mSourceImage.load(mImageFile))
+    {
+        return false;
+    }
+    mPaintImage = mSourceImage;
+    mScale = 1.0;
+
+    moveImageToCenter();
+    update();
+    return true;
 }
 
 bool XYImageViewer::event(QEvent *event)
