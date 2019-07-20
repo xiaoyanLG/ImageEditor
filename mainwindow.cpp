@@ -79,9 +79,7 @@ void MainWindow::initStorageBox()
     btn = box->addButton(QStringLiteral("保存"), QImage(":/save.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::save);
     btn = box->addButton(QStringLiteral("删除"), QImage(":/delete.ico"));
-    connect(btn, &XYButton::clicked, ui->ImageViewer, [this](){
-        ui->ImageViewer->rolate(90);
-    });
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::deleteCurrentImage);
 
     box->addStretch();
     box->addSpacing(36);

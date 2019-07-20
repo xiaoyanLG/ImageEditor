@@ -153,15 +153,18 @@ void XYImageViewer::deleteCurrentImage()
 {
     if (!mSourceImage.isNull())
     {
+        QFileInfo info(mImageFile);
         QFile::remove(mImageFile);
-        mAllDirImages.removeAll(mImageFile);
+        mAllDirImages.removeAll(info.fileName());
         if (mAllDirImages.isEmpty())
         {
-            initImage("");
+            mImageFile.clear();
+            mSourceImage = mPaintImage = QImage();
+            update();
         }
         else if (mAllDirImages.size() == 1)
         {
-            initImage(mAllDirImages.first());
+            initImage(info.absoluteDir().path() + QDir::separator() + mAllDirImages.first());
         }
         else
         {
