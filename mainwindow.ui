@@ -84,6 +84,7 @@
     <property name="title">
      <string>编辑</string>
     </property>
+    <addaction name="actionRestore"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -108,6 +109,11 @@
   <action name="actionOpen">
    <property name="text">
     <string>打开</string>
+   </property>
+  </action>
+  <action name="actionRestore">
+   <property name="text">
+    <string>还原</string>
    </property>
   </action>
  </widget>

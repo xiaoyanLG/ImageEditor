@@ -5,5 +5,13 @@
         <file>func.ico</file>
         <file>left.ico</file>
         <file>right.ico</file>
+        <file>rotate_left.ico</file>
+        <file>rotate_right.ico</file>
+        <file>adaptive.ico</file>
+        <file>centered.ico</file>
+        <file>restore.ico</file>
+        <file>delete.ico</file>
+        <file>save.ico</file>
+        <file>zoomout.ico</file>
     </qresource>
 </RCC>

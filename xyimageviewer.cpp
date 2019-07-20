@@ -56,6 +56,39 @@ void XYImageViewer::restore()
     initImage(mImageFile);
 }
 
+void XYImageViewer::adaptive()
+{
+    if (mSourceImage.isNull())
+    {
+        return;
+    }
+
+    QSize windowSize = this->size();
+    QSize imageSize = mSourceImage.size();
+
+    double imageRatio = double(imageSize.height()) / imageSize.width();
+    double scaleTo;
+
+    if (windowSize.width() * imageRatio > windowSize.height())
+    {
+        scaleTo = double(windowSize.height()) / imageSize.height();
+    }
+    else
+    {
+        scaleTo = double(windowSize.width()) / imageSize.width();
+    }
+
+    if (qAbs(mScale - scaleTo) <= 0.00001)
+    {
+        setScale(1.0);
+    }
+    else
+    {
+        setScale(scaleTo);
+        moveImageToCenter();
+    }
+}
+
 void XYImageViewer::previous()
 {
     if (mAllDirImages.size() <= 1)
@@ -103,6 +136,67 @@ void XYImageViewer::setScale(qreal scale)
     mPaintImage = mSourceImage.scaled(mSourceImage.size() * mScale, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     mImagePos -= QRect(mImagePos, mPaintImage.size()).center() - center;
     update();
+}
+
+void XYImageViewer::rolate(int angle)
+{
+    QMatrix rm;
+    rm.rotate(angle);
+    QPoint center = QRect(mImagePos, mPaintImage.size()).center();
+    mPaintImage = mPaintImage.transformed(rm);
+    mSourceImage = mPaintImage;
+    mImagePos -= QRect(mImagePos, mPaintImage.size()).center() - center;
+    update();
+}
+
+void XYImageViewer::deleteCurrentImage()
+{
+    if (!mSourceImage.isNull())
+    {
+        QFile::remove(mImageFile);
+        mAllDirImages.removeAll(mImageFile);
+        if (mAllDirImages.isEmpty())
+        {
+            initImage("");
+        }
+        else if (mAllDirImages.size() == 1)
+        {
+            initImage(mAllDirImages.first());
+        }
+        else
+        {
+            next();
+        }
+    }
+}
+
+void XYImageViewer::save()
+{
+    if (!mPaintImage.isNull())
+    {
+        mPaintImage.save(mImageFile);
+    }
+}
+
+void XYImageViewer::zoomOutContents()
+{
+    // 这个功能需要单独再设计，现在这样会越来越模糊
+    if (!mPaintImage.isNull())
+    {
+        QImage image(mPaintImage.size(), QImage::Format_ARGB32);
+        QPainter painter(&image);
+        painter.setRenderHint(QPainter::SmoothPixmapTransform);
+        painter.setCompositionMode(QPainter::CompositionMode_Clear);
+        painter.fillRect(image.rect(), Qt::transparent);
+
+        painter.setCompositionMode(QPainter::CompositionMode_Source);
+        painter.drawImage(image.rect().adjusted(1, 1, -1, -1), mPaintImage);
+        painter.end();
+
+        mPaintImage = image;
+
+        update();
+    }
 }
 
 bool XYImageViewer::event(QEvent *event)
@@ -176,7 +270,10 @@ void XYImageViewer::paintEvent(QPaintEvent *)
     painter.fillRect(rect(), QColor("#606060"));
 
     // 绘制图片
-    painter.drawImage(mImagePos, mPaintImage);
+    if (!mPaintImage.isNull())
+    {
+        painter.drawImage(mImagePos, mPaintImage);
+    }
 }
 
 void XYImageViewer::dragEnterEvent(QDragEnterEvent *event)

@@ -54,12 +54,37 @@ void MainWindow::initStorageBox()
     });
     box->addStretch();
 
+    btn = box->addButton(QStringLiteral("恢复原始"), QImage(":/restore.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::restore);
+    btn = box->addButton(QStringLiteral("居中"), QImage(":/centered.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::moveImageToCenter);
+    btn = box->addButton(QStringLiteral("自适应"), QImage(":/adaptive.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::adaptive);
+    btn = box->addButton(QStringLiteral("缩小内部（保持图片大小）"), QImage(":/zoomout.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::zoomOutContents);
+
     btn = box->addButton(QStringLiteral("上一张"), QImage(":/left.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::previous);
     btn = box->addButton(QStringLiteral("下一张"), QImage(":/right.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::next);
+
+    btn = box->addButton(QStringLiteral("向左旋转"), QImage(":/rotate_left.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, [this](){
+        ui->ImageViewer->rolate(-90);
+    });
+    btn = box->addButton(QStringLiteral("向右旋转"), QImage(":/rotate_right.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, [this](){
+        ui->ImageViewer->rolate(90);
+    });
+    btn = box->addButton(QStringLiteral("保存"), QImage(":/save.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::save);
+    btn = box->addButton(QStringLiteral("删除"), QImage(":/delete.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, [this](){
+        ui->ImageViewer->rolate(90);
+    });
+
     box->addStretch();
-    box->addSpacing(72);
+    box->addSpacing(36);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -74,4 +99,9 @@ void MainWindow::on_actionOpen_triggered()
     {
         ui->ImageViewer->initImage(file);
     }
+}
+
+void MainWindow::on_actionRestore_triggered()
+{
+    ui->ImageViewer->restore();
 }

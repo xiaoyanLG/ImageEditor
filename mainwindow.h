@@ -20,6 +20,8 @@ private slots:
 
     void on_actionOpen_triggered();
 
+    void on_actionRestore_triggered();
+
 private:
     void initFrame();
     void initFuncsBox();

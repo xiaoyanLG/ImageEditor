@@ -14,9 +14,14 @@ public:
 public slots:
     void moveImageToCenter();
     void restore();
+    void adaptive();
     void previous();
     void next();
     void setScale(qreal scale);
+    void rolate(int angle);
+    void deleteCurrentImage();
+    void save();
+    void zoomOutContents();
 
 protected:
     bool event(QEvent *event) override;
