@@ -15,8 +15,7 @@ XYImageViewer::XYImageViewer(QWidget *parent)
 void XYImageViewer::initImage(const QString &img)
 {
     mImageFile = img;
-    QImage tmp;
-    if (!tmp.load(img))
+    if (mImageFile.isEmpty() || !mSourceImage.load(mImageFile))
     {
         return;
     }
@@ -35,8 +34,7 @@ void XYImageViewer::initImage(const QString &img)
     {
         mAllDirImages.prepend(info.fileName());
     }
-    mPaintImage.load(mImageFile);
-    mSourceImage.load(mImageFile);
+    mPaintImage = mSourceImage;
     mScale = 1.0;
 
     moveImageToCenter();
