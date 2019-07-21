@@ -1,11 +1,13 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "xyfuncplugin.h"
 #include "xystoragebox.h"
 #include "xyfuncproxywidget.h"
 #include "xyfuncpanelwidget.h"
 #include "xybutton.h"
 #include "plugins/crop/xycropfunc.h"
 #include <QFileDialog>
+#include <QPluginLoader>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,8 +44,38 @@ void MainWindow::initFuncsBox()
     {
         ui->FuncsBox->addFunc(func);
         auto funcPanel = func->createFuncPanel();
-        funcPanel->setImageViewer(ui->ImageViewer);
-        ui->FuncPanelsBox->addFuncPanel(funcPanel);
+        if (funcPanel != nullptr)
+        {
+            funcPanel->setImageViewer(ui->ImageViewer);
+            ui->FuncPanelsBox->addFuncPanel(funcPanel);
+        }
+    }
+
+    // 加载插件
+    QDir dir("./plugins");
+    auto dlls = dir.entryList(QDir::Files);
+    for (QString dll : dlls)
+    {
+        QPluginLoader loader(dir.filePath(dll));
+        if (loader.load())
+        {
+            QString IID = loader.metaData().value("IID").toString();
+            if (IID == XYFuncPluginInterface_iid)
+            {
+                XYFuncPlugin *plugin = reinterpret_cast<XYFuncPlugin *>(loader.instance());
+                auto func = plugin->createFuncProxy();
+                if (func != nullptr)
+                {
+                    ui->FuncsBox->addFunc(func);
+                    auto funcPanel = func->createFuncPanel();
+                    if (funcPanel != nullptr)
+                    {
+                        funcPanel->setImageViewer(ui->ImageViewer);
+                        ui->FuncPanelsBox->addFuncPanel(funcPanel);
+                    }
+                }
+            }
+        }
     }
 }
 
