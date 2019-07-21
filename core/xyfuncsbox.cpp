@@ -6,7 +6,7 @@
 XYFuncsBox::XYFuncsBox(QWidget *parent)
     : QWidget(parent)
 {
-    setLayout(new FlowLayout(2));
+    setLayout(new FlowLayout);
 }
 
 void XYFuncsBox::addFunc(XYFuncProxyWidget *func)
