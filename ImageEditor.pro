@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+    core/xybutton.cpp \
     main.cpp \
     mainwindow.cpp \
     core/xyfuncpanelsbox.cpp \
@@ -40,6 +41,7 @@ SOURCES += \
     plugins/crop/xycropproxywidget.cpp
 
 HEADERS += \
+    core/xybutton.h \
     version.h \
     mainwindow.h \
     core/xyfuncpanelsbox.h \

@@ -3,6 +3,7 @@
 #include "xystoragebox.h"
 #include "xyfuncproxywidget.h"
 #include "xyfuncpanelwidget.h"
+#include "xybutton.h"
 #include "plugins/crop/xycropfunc.h"
 #include <QFileDialog>
 

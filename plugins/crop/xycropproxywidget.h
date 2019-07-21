@@ -7,6 +7,8 @@ class XYCropProxyWidget : public XYFuncProxyWidget
 {
     Q_OBJECT
 public:
+    XYCropProxyWidget();
+
     // 创建显示在功能扩展盒子里面的具体功能面板
     XYFuncPanelWidget *createFuncPanel() override;
 

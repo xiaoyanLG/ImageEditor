@@ -13,5 +13,6 @@
         <file>delete.ico</file>
         <file>save.ico</file>
         <file>zoomout.ico</file>
+        <file>cut.ico</file>
     </qresource>
 </RCC>

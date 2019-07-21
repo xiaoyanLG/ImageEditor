@@ -2,6 +2,7 @@
 #include "xyfuncproxywidget.h"
 #include "xyimageviewer.h"
 #include <QEvent>
+#include <QPainter>
 
 XYFuncPanelWidget::XYFuncPanelWidget(XYFuncProxyWidget *proxy)
     : mProxyWidget(proxy)

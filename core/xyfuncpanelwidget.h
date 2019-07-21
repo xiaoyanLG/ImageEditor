@@ -12,7 +12,6 @@ public:
     explicit XYFuncPanelWidget(XYFuncProxyWidget *proxy);
     void setImageViewer(XYImageViewer *viewer);
 
-
 signals:
     void proxyClicked();
 
