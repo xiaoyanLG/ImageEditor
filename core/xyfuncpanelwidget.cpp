@@ -17,15 +17,29 @@ void XYFuncPanelWidget::setImageViewer(XYImageViewer *viewer)
 
 bool XYFuncPanelWidget::eventFilter(QObject *obj, QEvent *event)
 {
-    // 实现模版
     if (this->isVisible() && mImageViewer == obj)
     {
         switch (event->type())
         {
+        case QEvent::Paint:
+        {
+            paintMaskImage();
+            break;
+        }
         default:
             break;
         }
     }
 
     return QWidget::eventFilter(obj, event);
+}
+
+void XYFuncPanelWidget::paintMaskImage()
+{
+    // 如果需要，添加图层到ImageViewer
+
+    if (!mMaskImage.isNull())
+    {
+        mImageViewer->addMaskImage(mMaskImage, mImageViewer->imagePos());
+    }
 }

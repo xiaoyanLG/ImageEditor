@@ -33,6 +33,12 @@ void XYImageViewer::initImage(const QString &img)
     }
 }
 
+void XYImageViewer::addMaskImage(const QImage &img, const QPoint &pos)
+{
+    Mask mask = {img, pos};
+    mAllMaskImages.append(mask);
+}
+
 void XYImageViewer::moveImageToCenter()
 {
     int w = mPaintImage.width();
@@ -281,6 +287,14 @@ void XYImageViewer::paintEvent(QPaintEvent *)
     if (!mPaintImage.isNull())
     {
         painter.drawImage(mImagePos, mPaintImage);
+    }
+
+    // 绘制图片上图层, 绘制完即可删除
+    auto first = mAllMaskImages.begin();
+    while (first != mAllMaskImages.end())
+    {
+        painter.drawImage(first->pos, first->image);
+        first = mAllMaskImages.erase(first);
     }
 }
 

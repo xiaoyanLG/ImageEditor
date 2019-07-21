@@ -19,9 +19,13 @@ signals:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
+    virtual void paintMaskImage();
+
 protected:
     XYFuncProxyWidget *mProxyWidget;
     XYImageViewer     *mImageViewer;
+
+    QImage             mMaskImage;
 
 };
 

@@ -9,8 +9,10 @@ class XYImageViewer : public QWidget
 public:
     explicit XYImageViewer(QWidget *parent = nullptr);
     void initImage(const QString &img);
+    void addMaskImage(const QImage &img, const QPoint &pos);
     inline qreal scale() { return mScale; }
     inline const QImage &image() { return mPaintImage; }
+    inline const QPoint &imagePos() { return mImagePos; }
 
 public slots:
     void moveImageToCenter();
@@ -41,12 +43,18 @@ private:
     QPoint     mLastPos;
 
 private:
-    QImage      mSourceImage;    // 当前加载的图片
-    QImage      mPaintImage;     // 当前绘制用的图片
-    QPoint      mImagePos;       // 当前图片显示的位置
-    QString     mImageFile;      // 当前加载的图片路径
-    qreal       mScale;          // 缩放比例
-    QStringList mAllDirImages;   // 当前加载的图片同级目录下的所有图片
+    QImage      mSourceImage;     // 当前加载的图片
+    QImage      mPaintImage;      // 当前绘制用的图片
+    QPoint      mImagePos;        // 当前图片显示的位置
+    QString     mImageFile;       // 当前加载的图片路径
+    qreal       mScale;           // 缩放比例
+    QStringList mAllDirImages;    // 当前加载的图片同级目录下的所有图片
+
+    struct Mask {
+        QImage image;
+        QPoint pos;
+    };
+    QList<Mask> mAllMaskImages;   // 图片上图层
 
 };
 
