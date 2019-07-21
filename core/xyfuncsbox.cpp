@@ -1,10 +1,19 @@
-#include "xyfuncsbox.h"
+﻿#include "xyfuncsbox.h"
+#include "flowlayout.h"
+#include "xyfuncproxywidget.h"
 #include <QPainter>
 
 XYFuncsBox::XYFuncsBox(QWidget *parent)
     : QWidget(parent)
 {
     setMinimumWidth(50);
+
+    setLayout(new FlowLayout);
+}
+
+void XYFuncsBox::addFunc(XYFuncProxyWidget *func)
+{
+    layout()->addWidget(func);
 }
 
 void XYFuncsBox::paintEvent(QPaintEvent *)

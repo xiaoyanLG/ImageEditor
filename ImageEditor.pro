@@ -25,22 +25,33 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
-    xyfuncsbox.cpp \
-    xyimageviewer.cpp \
-    xyexpansionsbox.cpp \
-    xystoragebox.cpp
+    main.cpp \
+    mainwindow.cpp \
+    core/xyfuncpanelwidget.cpp \
+    core/xyfuncplugin.cpp \
+    core/xyfuncproxywidget.cpp \
+    core/xyfuncsbox.cpp \
+    core/xyimageviewer.cpp \
+    core/xyexpansionsbox.cpp \
+    core/xystoragebox.cpp \
+    core/flowlayout.cpp
 
 HEADERS += \
-        mainwindow.h \
-    xyfuncsbox.h \
-    xyimageviewer.h \
-    xyexpansionsbox.h \
-    xystoragebox.h
+    version.h \
+    mainwindow.h \
+    core/xyfuncpanelwidget.h \
+    core/xyfuncplugin.h \
+    core/xyfuncproxywidget.h \
+    core/xyfuncsbox.h \
+    core/xyimageviewer.h \
+    core/xyexpansionsbox.h \
+    core/xystoragebox.h \
+    core/flowlayout.h
 
 FORMS += \
         mainwindow.ui
+
+INCLUDEPATH += core
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

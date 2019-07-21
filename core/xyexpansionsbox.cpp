@@ -1,4 +1,4 @@
-#include "xyexpansionsbox.h"
+﻿#include "xyexpansionsbox.h"
 #include <QPainter>
 
 XYExpansionsBox::XYExpansionsBox(QWidget *parent)
