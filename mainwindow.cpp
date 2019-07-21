@@ -86,7 +86,7 @@ void MainWindow::initStorageBox()
     connect(btn, &XYButton::clicked, this, [this]() {
         this->ui->FuncsBox->setVisible(!this->ui->FuncsBox->isVisible());
     });
-    btn = box->addButton(QStringLiteral("功能扩展盒子"), QImage(":/extend.ico"));
+    btn = box->addButton(QStringLiteral("功能扩展盒子"), QImage(":/funcpanel.ico"));
     connect(btn, &XYButton::clicked, this, [this]() {
         this->ui->FuncPanelsBox->setVisible(!this->ui->FuncPanelsBox->isVisible());
     });

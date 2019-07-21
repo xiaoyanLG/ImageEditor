@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>image.png</file>
-        <file>extend.ico</file>
         <file>func.ico</file>
         <file>left.ico</file>
         <file>right.ico</file>
@@ -14,5 +13,6 @@
         <file>save.ico</file>
         <file>zoomout.ico</file>
         <file>cut.ico</file>
+        <file>funcpanel.ico</file>
     </qresource>
 </RCC>
