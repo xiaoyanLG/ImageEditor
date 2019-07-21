@@ -8,10 +8,18 @@ class XYFuncProxyWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit XYFuncProxyWidget(QWidget *parent = nullptr);
+    XYFuncProxyWidget();
 
     // 创建显示在功能扩展盒子里面的具体功能面板
     virtual XYFuncPanelWidget *createFuncPanel() = 0;
+
+signals:
+    void clicked();
+
+protected:
+    void paintEvent(QPaintEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+
 };
 
 #endif // XYFUNCPROXYWIDGET_H

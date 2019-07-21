@@ -1,6 +1,9 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "xystoragebox.h"
+#include "xyfuncproxywidget.h"
+#include "xyfuncpanelwidget.h"
+#include "plugins/crop/xycropfunc.h"
 #include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -11,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     initFrame();
     initFuncsBox();
-    initExpansionsBox();
     initStorageBox();
     resize(800, 600);
 }
@@ -28,29 +30,32 @@ void MainWindow::initFrame()
     ui->splitter->setStretchFactor(2, 0);
 
     ui->FuncsBox->setVisible(false);
-    ui->ExpansionsBox->setVisible(false);
+    ui->FuncPanelsBox->setVisible(false);
 }
 
 void MainWindow::initFuncsBox()
 {
-
-}
-
-void MainWindow::initExpansionsBox()
-{
-
+    XYCropFunc *crop = new XYCropFunc;
+    auto func = crop->createFuncProxy();
+    if (func != nullptr)
+    {
+        ui->FuncsBox->addFunc(func);
+        auto funcPanel = func->createFuncPanel();
+        funcPanel->setImageViewer(ui->ImageViewer);
+        ui->FuncPanelsBox->addFuncPanel(funcPanel);
+    }
 }
 
 void MainWindow::initStorageBox()
 {
     XYStorageBox *box = ui->StorageBox;
     auto btn = box->addButton(QStringLiteral("功能盒子"), QImage(":/func.ico"));
-    connect(btn, &XYButton::clicked, this, [this](){
+    connect(btn, &XYButton::clicked, this, [this]() {
         this->ui->FuncsBox->setVisible(!this->ui->FuncsBox->isVisible());
     });
     btn = box->addButton(QStringLiteral("功能扩展盒子"), QImage(":/extend.ico"));
-    connect(btn, &XYButton::clicked, this, [this](){
-        this->ui->ExpansionsBox->setVisible(!this->ui->ExpansionsBox->isVisible());
+    connect(btn, &XYButton::clicked, this, [this]() {
+        this->ui->FuncPanelsBox->setVisible(!this->ui->FuncPanelsBox->isVisible());
     });
     box->addStretch();
 
@@ -82,7 +87,7 @@ void MainWindow::initStorageBox()
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::deleteCurrentImage);
 
     box->addStretch();
-    box->addSpacing(36);
+    box->addSpacing(72);
 }
 
 void MainWindow::on_actionExit_triggered()

@@ -25,7 +25,6 @@ private slots:
 private:
     void initFrame();
     void initFuncsBox();
-    void initExpansionsBox();
     void initStorageBox();
 
 private:

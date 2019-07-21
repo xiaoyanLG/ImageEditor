@@ -27,26 +27,32 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    core/xyfuncpanelsbox.cpp \
     core/xyfuncpanelwidget.cpp \
     core/xyfuncplugin.cpp \
     core/xyfuncproxywidget.cpp \
     core/xyfuncsbox.cpp \
     core/xyimageviewer.cpp \
-    core/xyexpansionsbox.cpp \
     core/xystoragebox.cpp \
-    core/flowlayout.cpp
+    core/flowlayout.cpp \
+    plugins/crop/xycropfunc.cpp \
+    plugins/crop/xycroppanelwidget.cpp \
+    plugins/crop/xycropproxywidget.cpp
 
 HEADERS += \
     version.h \
     mainwindow.h \
+    core/xyfuncpanelsbox.h \
     core/xyfuncpanelwidget.h \
     core/xyfuncplugin.h \
     core/xyfuncproxywidget.h \
     core/xyfuncsbox.h \
     core/xyimageviewer.h \
-    core/xyexpansionsbox.h \
     core/xystoragebox.h \
-    core/flowlayout.h
+    core/flowlayout.h \
+    plugins/crop/xycropfunc.h \
+    plugins/crop/xycroppanelwidget.h \
+    plugins/crop/xycropproxywidget.h \
 
 FORMS += \
         mainwindow.ui

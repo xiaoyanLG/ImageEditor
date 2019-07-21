@@ -56,7 +56,7 @@
         </sizepolicy>
        </property>
       </widget>
-      <widget class="XYExpansionsBox" name="ExpansionsBox" native="true"/>
+      <widget class="XYFuncPanelsBox" name="FuncPanelsBox" native="true"/>
      </widget>
     </item>
     <item>
@@ -132,15 +132,15 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>XYExpansionsBox</class>
-   <extends>QWidget</extends>
-   <header>xyexpansionsbox.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>XYStorageBox</class>
    <extends>QWidget</extends>
    <header>xystoragebox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XYFuncPanelsBox</class>
+   <extends>QWidget</extends>
+   <header>xyfuncpanelsbox.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

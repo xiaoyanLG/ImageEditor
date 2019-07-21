@@ -3,15 +3,26 @@
 
 #include <QWidget>
 
+class XYImageViewer;
+class XYFuncProxyWidget;
 class XYFuncPanelWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit XYFuncPanelWidget(QWidget *parent = nullptr);
+    explicit XYFuncPanelWidget(XYFuncProxyWidget *proxy);
+    void setImageViewer(XYImageViewer *viewer);
+
 
 signals:
+    void proxyClicked();
 
-public slots:
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
+protected:
+    XYFuncProxyWidget *mProxyWidget;
+    XYImageViewer     *mImageViewer;
+
 };
 
 #endif // XYFUNCPANELWIDGET_H

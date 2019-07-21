@@ -10,6 +10,7 @@ public:
     explicit XYImageViewer(QWidget *parent = nullptr);
     void initImage(const QString &img);
     inline qreal scale() { return mScale; }
+    inline const QImage &image() { return mPaintImage; }
 
 public slots:
     void moveImageToCenter();
