@@ -82,11 +82,11 @@ void MainWindow::initFuncsBox()
 void MainWindow::initStorageBox()
 {
     XYStorageBox *box = ui->StorageBox;
-    auto btn = box->addButton(QStringLiteral("功能盒子"), QImage(":/func.ico"));
+    auto btn = box->addButton(QStringLiteral("功能盒子"), QImage(":/funcs.ico"));
     connect(btn, &XYButton::clicked, this, [this]() {
         this->ui->FuncsBox->setVisible(!this->ui->FuncsBox->isVisible());
     });
-    btn = box->addButton(QStringLiteral("功能扩展盒子"), QImage(":/funcpanel.ico"));
+    btn = box->addButton(QStringLiteral("功能扩展盒子"), QImage(":/funcpanels.ico"));
     connect(btn, &XYButton::clicked, this, [this]() {
         this->ui->FuncPanelsBox->setVisible(!this->ui->FuncPanelsBox->isVisible());
     });
