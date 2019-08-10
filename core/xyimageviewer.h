@@ -2,6 +2,7 @@
 #define XYIMAGEVIEWER_H
 
 #include <QWidget>
+#include <QStack>
 
 class XYImageViewer : public QWidget
 {
@@ -13,8 +14,12 @@ public:
     inline qreal scale() { return mScale; }
     inline const QImage &image() { return mPaintImage; }
     inline const QPoint &imagePos() { return mImagePos; }
+    void setPaintImage(const QImage &image);
+    void setSourceImage(const QImage &image);
 
 public slots:
+    void redo();
+    void undo();
     void moveImageToCenter();
     void restore();
     void adaptive();
@@ -49,6 +54,9 @@ private:
     QString     mImageFile;       // 当前加载的图片路径
     qreal       mScale;           // 缩放比例
     QStringList mAllDirImages;    // 当前加载的图片同级目录下的所有图片
+
+    QStack<QImage> mRedoImages;   // 保存重做图片
+    QStack<QImage> mUndoImages;   // 保存撤销图片
 
     struct Mask {
         QImage image;

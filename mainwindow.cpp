@@ -19,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent) :
     initFuncsBox();
     initStorageBox();
     resize(800, 600);
+
+    addAction(ui->actionOpen);
+    addAction(ui->actionExit);
+    addAction(ui->actionRestore);
+    addAction(ui->actionSave);
 }
 
 MainWindow::~MainWindow()
@@ -92,12 +97,14 @@ void MainWindow::initStorageBox()
     });
     box->addStretch();
 
+    btn = box->addButton(QStringLiteral("打开图片"), QImage(":/open.ico"));
+    connect(btn, &XYButton::clicked, this, &MainWindow::on_actionOpen_triggered);
     btn = box->addButton(QStringLiteral("恢复原始"), QImage(":/restore.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::restore);
-    btn = box->addButton(QStringLiteral("居中"), QImage(":/centered.ico"));
-    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::moveImageToCenter);
-    btn = box->addButton(QStringLiteral("自适应"), QImage(":/adaptive.ico"));
-    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::adaptive);
+    btn = box->addButton(QStringLiteral("撤销"), QImage(":/undo.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::undo);
+    btn = box->addButton(QStringLiteral("重做"), QImage(":/redo.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::redo);
     btn = box->addButton(QStringLiteral("缩小内部（保持图片大小）"), QImage(":/zoomout.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::zoomOutContents);
 
@@ -114,13 +121,18 @@ void MainWindow::initStorageBox()
     connect(btn, &XYButton::clicked, ui->ImageViewer, [this](){
         ui->ImageViewer->rolate(90);
     });
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::restore);
+    btn = box->addButton(QStringLiteral("居中"), QImage(":/centered.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::moveImageToCenter);
+    btn = box->addButton(QStringLiteral("自适应"), QImage(":/adaptive.ico"));
+    connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::adaptive);
     btn = box->addButton(QStringLiteral("保存"), QImage(":/save.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::save);
     btn = box->addButton(QStringLiteral("删除"), QImage(":/delete.ico"));
     connect(btn, &XYButton::clicked, ui->ImageViewer, &XYImageViewer::deleteCurrentImage);
 
     box->addStretch();
-    box->addSpacing(72);
+    box->addSpacing(36);
 }
 
 void MainWindow::on_actionExit_triggered()
@@ -140,4 +152,9 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_actionRestore_triggered()
 {
     ui->ImageViewer->restore();
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    ui->ImageViewer->save();
 }

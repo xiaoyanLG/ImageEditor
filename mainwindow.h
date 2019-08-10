@@ -22,6 +22,8 @@ private slots:
 
     void on_actionRestore_triggered();
 
+    void on_actionSave_triggered();
+
 private:
     void initFrame();
     void initFuncsBox();

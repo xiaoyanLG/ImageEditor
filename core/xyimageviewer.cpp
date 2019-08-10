@@ -39,6 +39,50 @@ void XYImageViewer::addMaskImage(const QImage &img, const QPoint &pos)
     mAllMaskImages.append(mask);
 }
 
+void XYImageViewer::setPaintImage(const QImage &image)
+{
+    QRegion last(mPaintImage.rect());
+    mUndoImages.push(mPaintImage);
+    mRedoImages.clear();
+    mPaintImage = image;
+
+    last += mPaintImage.rect();
+    update(last.translated(mImagePos));
+}
+
+void XYImageViewer::setSourceImage(const QImage &image)
+{
+    mSourceImage = image;
+    setPaintImage(mSourceImage);
+}
+
+void XYImageViewer::redo()
+{
+    if (!mRedoImages.isEmpty())
+    {
+        QRegion last(mPaintImage.rect());
+        mUndoImages.push(mPaintImage);
+        mPaintImage = mRedoImages.pop();
+
+        last += mPaintImage.rect();
+        update(last.translated(mImagePos));
+    }
+}
+
+void XYImageViewer::undo()
+{
+    if (!mUndoImages.isEmpty())
+    {
+        QRegion last(mPaintImage.rect());
+        mRedoImages.push(mPaintImage);
+        mPaintImage = mUndoImages.pop();
+
+        last += mPaintImage.rect();
+        update(last.translated(mImagePos));
+    }
+}
+
+
 void XYImageViewer::moveImageToCenter()
 {
     int w = mPaintImage.width();
@@ -139,7 +183,7 @@ void XYImageViewer::rolate(int angle)
     QMatrix rm;
     rm.rotate(angle);
     QPoint center = QRect(mImagePos, mPaintImage.size()).center();
-    mPaintImage = mPaintImage.transformed(rm);
+    setPaintImage(mPaintImage.transformed(rm));
     mSourceImage = mPaintImage;
     mImagePos -= QRect(mImagePos, mPaintImage.size()).center() - center;
     update();
@@ -189,7 +233,7 @@ void XYImageViewer::zoomOutContents()
         painter.fillRect(image.rect(), Qt::transparent);
 
         painter.setCompositionMode(QPainter::CompositionMode_Source);
-        painter.drawImage(image.rect().adjusted(1, 1, -1, -1), mPaintImage);
+        painter.drawImage(image.rect().adjusted(5, 5, -5, -5), mPaintImage);
         painter.end();
 
         mPaintImage = image;

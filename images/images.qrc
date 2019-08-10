@@ -14,5 +14,8 @@
         <file>cut.ico</file>
         <file>funcpanels.ico</file>
         <file>funcs.ico</file>
+        <file>open.ico</file>
+        <file>redo.ico</file>
+        <file>undo.ico</file>
     </qresource>
 </RCC>
